@@ -12,6 +12,7 @@ class ImageGrid extends StatelessWidget {
         ? Provider.of<Pictures>(context).favourites
         : Provider.of<Pictures>(context).items;
     return GridView.builder(
+        shrinkWrap: true,
         itemCount: products.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

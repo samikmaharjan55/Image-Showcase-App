@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:image_showcase/model/image.dart';
-import 'package:image_showcase/screens/image_details_screen.dart';
 import 'package:provider/provider.dart';
 
 class ImageItem extends StatelessWidget {
@@ -26,21 +25,10 @@ class ImageItem extends StatelessWidget {
             },
             color: Theme.of(context).colorScheme.secondary,
           ),
-          trailing: IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {},
-            color: Theme.of(context).colorScheme.secondary,
-          ),
         ),
-        child: InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, ImageDetailsScreen.routeName,
-                arguments: loadedProduct.id);
-          },
-          child: Image.network(
-            loadedProduct.imageURL,
-            fit: BoxFit.cover,
-          ),
+        child: Image.network(
+          loadedProduct.imageURL,
+          fit: BoxFit.cover,
         ),
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:image_showcase/model/images.dart';
-import 'package:image_showcase/screens/image_details_screen.dart';
 import 'package:image_showcase/screens/search_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
         initialRoute: "/",
         routes: {
           "/": (ctx) => const SearchScreen(),
-          ImageDetailsScreen.routeName: (ctx) => const ImageDetailsScreen(),
         },
       ),
     );
