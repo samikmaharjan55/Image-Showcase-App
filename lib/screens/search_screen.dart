@@ -9,12 +9,23 @@ import 'package:http/http.dart' as http;
 
 enum FilterOptions { Favourites, All }
 
-Future<Album> fetchAlbum() async {
+// Future<Album> fetchAlbum() async {
+//   final response = await http.get(Uri.parse(
+//       'https://pixabay.com/api/?key=33231416-f8d99950846947f22eaf07b74&q=yellow+flowers&image_type=photo'));
+//
+//   if (response.statusCode == 200) {
+//     return Album.fromJson(jsonDecode(response.body));
+//   } else {
+//     throw Exception('Failed to load album');
+//   }
+// }
+
+Future<Hit> fetchHit() async {
   final response = await http.get(Uri.parse(
       'https://pixabay.com/api/?key=33231416-f8d99950846947f22eaf07b74&q=yellow+flowers&image_type=photo'));
-  print(response.statusCode);
+  print(response.body);
   if (response.statusCode == 200) {
-    return Album.fromJson(jsonDecode(response.body));
+    return Hit.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load album');
   }
@@ -29,12 +40,13 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   bool _showFavourites = false;
-  late Future<Album> futureAlbum;
-
+  //late Future<Album> futureAlbum;
+  late Future<Hit> futureHit;
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
+    // futureAlbum = fetchAlbum();
+    futureHit = fetchHit();
   }
 
   @override
@@ -94,18 +106,18 @@ class _SearchScreenState extends State<SearchScreen> {
             height: 20,
           ),
           ImageGrid(_showFavourites),
-          FutureBuilder<Album>(
-            future: futureAlbum,
+          FutureBuilder<Hit>(
+            future: futureHit,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SizedBox(
-                  height: 200,
+                  height: 100,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     itemCount: 4,
                     itemBuilder: (_, index) =>
-                        Text(snapshot.data!.total.toString()),
+                        Image.network(snapshot.data!.webformatUrl.toString()),
                   ),
                 );
               } else if (snapshot.hasError) {
@@ -114,6 +126,28 @@ class _SearchScreenState extends State<SearchScreen> {
               return const CircularProgressIndicator();
             },
           ),
+          // FutureBuilder<Album>(
+          //   future: futureAlbum,
+          //   builder: (context, snapshot) {
+          //     if (snapshot.hasData) {
+          //       return SizedBox(
+          //         height: 100,
+          //         child: ListView.builder(
+          //           scrollDirection: Axis.horizontal,
+          //           shrinkWrap: true,
+          //           itemCount: 4,
+          //           itemBuilder: (_, index) => Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: Text(snapshot.data!.total.toString()),
+          //           ),
+          //         ),
+          //       );
+          //     } else if (snapshot.hasError) {
+          //       return Text('${snapshot.error}');
+          //     }
+          //     return const CircularProgressIndicator();
+          //   },
+          // ),
         ],
       ),
     );
